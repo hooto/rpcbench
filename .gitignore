@@ -1,0 +1,7 @@
+bin/
+etc/
+var/
+batch-*
+*.svg
+*.json
+

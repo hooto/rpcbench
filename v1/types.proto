@@ -1,0 +1,55 @@
+// Copyright 2020 Eryx <evorui аt gmаil dοt cοm>, All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package rpcbench;
+
+option cc_generic_services = true;
+
+enum BenchCompressType {
+  None = 0;
+}
+
+enum BenchPayloadType {
+  Text = 0;
+}
+
+message BenchPayloadSpec {
+  BenchPayloadType type = 1;
+  int32 size = 2;
+  BenchCompressType compress_type = 3;
+  int32 work_time = 6; // time to simulate "work" (us)
+}
+
+message BenchPayload {
+  BenchPayloadSpec spec = 1;
+  bytes body = 2;
+}
+
+message BenchRequest {
+  uint64 id  = 1;
+  BenchPayload payload = 2;
+  BenchPayloadSpec reply_spec = 3;
+}
+
+message BenchReply {
+  uint64 id  = 1;
+  BenchPayload payload = 2;
+}
+
+service Benchmark {
+  rpc UnaryCall (BenchRequest) returns (BenchReply) {}
+}
+
